@@ -1,0 +1,24 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.7.2
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2023-12-01T22:27:47Z"
+  labels:
+    app: pulsar-pubsub
+  name: pulsar-pubsub
+spec:
+  containers:
+  - env:
+    - name: PULSAR_URL
+      value: pulsar://192.168.171.238:6650
+    image: quay.io/prosenjitjoy/producer:latest
+    name: pulsar-pubsub-producer
+  - env:
+    - name: PULSAR_URL
+      value: pulsar://192.168.171.238:6650
+    image: quay.io/prosenjitjoy/consumer:latest
+    name: pulsar-pubsub-consumer
+

@@ -3,16 +3,18 @@ package main
 import (
 	"fmt"
 	"log"
-	"time"
+	"main/utils"
 
 	"github.com/apache/pulsar-client-go/pulsar"
 )
 
 func main() {
+	cfg := utils.LoadConfig()
+
 	client, err := pulsar.NewClient(pulsar.ClientOptions{
-		URL:               "pulsar://localhost:6650",
-		ConnectionTimeout: 30 * time.Second,
-		OperationTimeout:  30 * time.Second,
+		URL:               cfg.PulsarURL,
+		ConnectionTimeout: cfg.ConnectionTimeout,
+		OperationTimeout:  cfg.OperationTimeout,
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -22,12 +24,11 @@ func main() {
 	channel := make(chan pulsar.ConsumerMessage, 100)
 
 	options := pulsar.ConsumerOptions{
-		Topic:            "test",
-		SubscriptionName: "test-sub",
+		Topic:            cfg.TopicName,
+		SubscriptionName: cfg.SubscriberName,
 		Type:             pulsar.Exclusive,
+		MessageChannel:   channel,
 	}
-
-	options.MessageChannel = channel
 
 	consumer, err := client.Subscribe(options)
 	if err != nil {

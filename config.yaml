@@ -1,0 +1,6 @@
+pulsar_url: "pulsar://localhost:6650"
+topic_name: "test"
+subscriber_name: "test-subs"
+connection_timeout: "30s"
+operation_timeout: "30s"
+delay: "5s"
